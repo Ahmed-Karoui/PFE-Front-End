@@ -93,7 +93,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "smarthr:build:production"
+              "browserTarget": "smarthr:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             }
           }
         },
