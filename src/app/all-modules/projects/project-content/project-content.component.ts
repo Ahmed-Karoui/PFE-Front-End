@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { AllModulesService } from "../../all-modules.service";
-import { FormGroup, FormBuilder, Validators, NgForm } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
-import { Subject } from "rxjs";
-import { DatePipe } from "@angular/common";
-import { DataTableDirective } from "angular-datatables";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AllModulesService } from '../../all-modules.service';
+import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { DatePipe } from '@angular/common';
+import { DataTableDirective } from 'angular-datatables';
 import {ProjectsService} from '../../projects.service';
 
 declare const $: any;
 @Component({
-  selector: "app-project-content",
-  templateUrl: "./project-content.component.html",
-  styleUrls: ["./project-content.component.css"],
+  selector: 'app-project-content',
+  templateUrl: './project-content.component.html',
+  styleUrls: ['./project-content.component.css'],
 })
 export class ProjectContentComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableDirective, { static: false })
@@ -26,7 +26,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   public srch = [];
   public statusValue;
   public dtTrigger: Subject<any> = new Subject();
-  public pipe = new DatePipe("en-US");
+  public pipe = new DatePipe('en-US');
   constructor(
     private allModulesService: AllModulesService,
     private toastr: ToastrService,
@@ -39,30 +39,27 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
       $('[data-bs-toggle="tooltip"]').tooltip();
     });
     this.getProjects();
-    //Add Projects form
+    // Add Projects form
     this.addProjectForm = this.formBuilder.group({
-      projectName: ["", [Validators.required]],
-      projectDescription: ["", [Validators.required]],
-      projectStartDate: ["", [Validators.required]],
-      projectEndDate: ["", [Validators.required]],
-      projectPriority: ["", [Validators.required]],
-      projectLeader: ["", [Validators.required]],
-      addTeamMembers: ["", [Validators.required]],
-      projectId: ["", [Validators.required]],
-      id: ["", [Validators.required]],
+      projectName: ['', [Validators.required]],
+      projectDescription: ['', [Validators.required]],
+      projectStartDate: ['', [Validators.required]],
+      projectEndDate: ['', [Validators.required]],
+      projectCategory: ['', [Validators.required]],
     });
 
-    //Edit Projects Form
+    // Edit Projects Form
     this.editProjectForm = this.formBuilder.group({
-      editProjectName: ["", [Validators.required]],
-      editProjectDescription: ["", [Validators.required]],
-      editProjectStartDate: ["", [Validators.required]],
-      editProjectEndDate: ["", [Validators.required]],
-      editProjectPriority: ["", [Validators.required]],
-      editaddTeamMembers: ["", [Validators.required]],
-      editProjectId: ["", [Validators.required]],
-      editId: ["", [Validators.required]],
-    });
+        editProjectName: ['', [Validators.required]],
+        editProjectDescription: ['', [Validators.required]],
+        // editProjectStartDate: ['', [Validators.required]],
+        editProjectEndDate: ['']
+        // editProjectPriority: ['', [Validators.required]],
+        // editaddTeamMembers: ['', [Validators.required]],
+        // editProjectId: ['', [Validators.required]],
+        // editId: ['', [Validators.required]],
+      });
+
   }
 
   getProjects() {
@@ -75,7 +72,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach((control) => {
+    (Object as any).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
       if (control.controls) {
         this.markFormGroupTouched(control);
@@ -84,116 +81,114 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   }
 
 
-  //Create New Project
+  // Create New Project
   public addProject() {
     if(this.addProjectForm.invalid){
       this.markFormGroupTouched(this.addProjectForm)
       return
     }
-    let StartDate = this.pipe.transform(
+    const StartDate = this.pipe.transform(
       this.addProjectForm.value.projectStartDate,
-      "dd-MM-yyyy"
+      'yyyy-MM-dd'
     );
-    let EndDate = this.pipe.transform(
+    const EndDate = this.pipe.transform(
       this.addProjectForm.value.projectEndDate,
-      "dd-MM-yyyy"
+      'yyyy-MM-dd'
     );
-    let newProject = {
-      name: this.addProjectForm.value.projectName,
+    const newProject = {
+      project_name: this.addProjectForm.value.projectName,
       description: this.addProjectForm.value.projectDescription,
-      endDate: EndDate,
-      startDate: StartDate,
-      priority: this.addProjectForm.value.projectPriority,
-      projectleader: this.addProjectForm.value.projectLeader,
-      teamMember: this.addProjectForm.value.addTeamMembers,
-      projectId: "PRO-0012",
-      id: "",
+      Deadline: EndDate,
+      category: this.addProjectForm.value.projectCategory,
     };
-    this.allModulesService.add(newProject, "projects").subscribe();
+    this.projectsService.addProject(newProject).subscribe(response => {
+      console.log(response)
+    })
     this.getProjects();
     this.addProjectForm.reset();
-    $("#create_project").modal("hide");
-    this.toastr.success("Project added sucessfully...!", "Success");
+    $('#create_project').modal('hide');
+    this.toastr.success('Project added sucessfully...!', 'Success');
   }
 
-  //Edit project
+  // Edit project
   editProject(id: any) {
     this.tempId = id;
     const index = this.projects.findIndex((item) => {
-      return item.id === id;
+      return item._id === id;
     });
-    let toSetValues = this.projects[index];
+    const toSetValues = this.projects[index];
     this.editProjectForm.setValue({
-      editProjectName: toSetValues.name,
+      editProjectName: toSetValues.project_name,
       editProjectDescription: toSetValues.description,
-      editProjectEndDate: toSetValues.endDate,
-      editProjectStartDate: toSetValues.startDate,
-      editProjectPriority: toSetValues.priority,
-      editaddTeamMembers: toSetValues.teamMember,
-      editProjectId: toSetValues.projectId,
-      editId: toSetValues.id,
+      editProjectEndDate: toSetValues.deadline,
+      EditprojectCategory: toSetValues.category
+      // editProjectStartDate: toSetValues.startDate,
+      // editProjectPriority: toSetValues.priority,
+      // editaddTeamMembers: toSetValues.teamMember,
+      // editProjectId: toSetValues.projectId,
+      // editId: toSetValues.id,
     });
   }
 
-  //Save Project
-  public saveProject() {
-    let StartDate = this.pipe.transform(
+  // Save Project
+  public saveProject(id: any) {
+    const StartDate = this.pipe.transform(
       this.editProjectForm.value.projectStartDate,
-      "dd-MM-yyyy"
+      'yyyy-MM-dd'
     );
-    let EndDate = this.pipe.transform(
+    const EndDate = this.pipe.transform(
       this.editProjectForm.value.projectEndDate,
-      "dd-MM-yyyy"
+      'yyyy-MM-dd'
     );
-    let editedProject = {
-      name: this.editProjectForm.value.editProjectName,
+    const editedProject = {
+      project_name: this.editProjectForm.value.editProjectName,
       description: this.editProjectForm.value.editProjectDescription,
-      endDate: EndDate,
-      startDate: StartDate,
-      priority: this.editProjectForm.value.editProjectPriority,
-      teamMember: this.editProjectForm.value.editaddTeamMembers,
-      projectId: this.editProjectForm.value.editProjectPriority,
-      id: this.tempId,
+      deadline: EndDate,
+      categoty: this.editProjectForm.value.EditprojectCategory
     };
-    this.allModulesService.update(editedProject, "projects").subscribe();
+    this.projectsService.updateProject(editedProject, id).subscribe(response => {
+      console.log(response)
+    })
     this.getProjects();
     this.editProjectForm.reset();
-    $("#edit_project").modal("hide");
-    this.toastr.success("Project updated sucessfully...!", "Success");
+    $('#edit_project').modal('hide');
+    this.toastr.success('Project updated sucessfully...!', 'Success');
   }
 
-  //Delete project
-  public deleteProject() {
-    this.allModulesService.delete(this.tempId, "projects").subscribe();
+  // Delete project
+  public deleteProject(id: string) {
+      this.projectsService.deleteData(id).subscribe(res => {
+        this.projects = this.projects.filter(item => item.id !== id);
+      })
     this.getProjects();
-    $("#delete_project").modal("hide");
-    this.toastr.success("Project deleted sucessfully...!", "Success");
+    $('#delete_project').modal('hide');
+    this.toastr.success('Project deleted sucessfully...!', 'Success');
   }
 
-  //search by name
+  // search by name
   searchName(val) {
     this.rows.splice(0, this.rows.length);
-    let temp = this.srch.filter(function (d) {
+    const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows.push(...temp);
   }
 
-  //search by name
+  // search by name
   searchByEmpname(val) {
     this.rows.splice(0, this.rows.length);
-    let temp = this.srch.filter(function (d) {
+    const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
       return d.teamMember.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows.push(...temp);
   }
 
-  //search by purchase
+  // search by purchase
   searchByDesignation(val) {
     this.rows.splice(0, this.rows.length);
-    let temp = this.srch.filter(function (d) {
+    const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
       return d.designation.toLowerCase().indexOf(val) !== -1 || !val;
     });
