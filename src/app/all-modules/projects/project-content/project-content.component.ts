@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { Subject } from "rxjs";
 import { DatePipe } from "@angular/common";
 import { DataTableDirective } from "angular-datatables";
+import {ProjectsService} from '../../projects.service';
 
 declare const $: any;
 @Component({
@@ -29,7 +30,8 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   constructor(
     private allModulesService: AllModulesService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private projectsService: ProjectsService
   ) {}
 
   ngOnInit() {
@@ -64,7 +66,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   }
 
   getProjects() {
-    this.allModulesService.get("projects").subscribe((data) => {
+    this.projectsService.getAllProjects().subscribe((data) => {
       this.projects = data;
       this.dtTrigger.next();
       this.rows = this.projects;
