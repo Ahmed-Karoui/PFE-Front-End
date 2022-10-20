@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsService {
+export class TicketsService {
   private baseURL = `http://localhost:3000/tickets`
   constructor(private http: HttpClient) { }
 
-  getAllProjects(): Observable<any> {
+  getAllTickets(): Observable<any> {
     return this.http.get(`${this.baseURL}/get-tickets`)
   }
 
-  addProject(data: any): Observable<any> {
+  addTicket(data: any): Observable<any> {
     return this.http.post(`${this.baseURL}/add-ticket`, data)
   }
 
