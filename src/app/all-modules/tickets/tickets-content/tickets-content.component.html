@@ -185,23 +185,15 @@
                             <td>
                                 <div class="dropdown action-label">
                                     <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-bs-toggle="dropdown"
-                                        aria-expanded="false"><i class="fa fa-dot-circle-o text-danger"></i> P1 </a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" (click)="getStatus('P1')"><i
-                                                class="fa fa-dot-circle-o text-danger"></i>
-                                            High</a>
-                                        <a class="dropdown-item" (click)="getStatus('P2')"><i
-                                                class="fa fa-dot-circle-o text-warning"></i> Medium</a>
-                                        <a class="dropdown-item" (click)="getStatus('P3')"><i
-                                                class="fa fa-dot-circle-o text-success"></i> Low</a>
-                                    </div>
+                                        aria-expanded="false"><i class="fa fa-dot-circle-o text-danger"></i> {{tickets.urgency}} </a>
+
                                 </div>
                             </td>
                             <td class="text-center">
                                 <div class="dropdown action-label">
                                     <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-expanded="false">
-                                        <i class="fa fa-dot-circle-o text-danger"></i> New
+                                        <i class="fa fa-dot-circle-o text-danger"></i> {{tickets.status}}
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" (click)="getStatus('Open')"><i
@@ -229,8 +221,8 @@
                                         aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#edit_ticket"
-                                            (click)="edit(tickets.id)"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                        <a class="dropdown-item" data-bs-toggle="modal" (click)="tempId = tickets.id"
+                                           (click)="tempId = tickets._id"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                        <a class="dropdown-item" data-bs-toggle="modal" (click)="tempId = tickets._id"
                                             data-bs-target="#delete_ticket"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                     </div>
                                 </div>
@@ -261,14 +253,7 @@
                             <div class="form-group">
                                 <label>Ticket Subject</label>
                                 <input class="form-control" type="text"
-                                    [class.invalid]="addTicketForm.get('ticketSubject').invalid && addTicketForm.get('ticketSubject').touched"
                                     formControlName="ticketSubject">
-                                <div
-                                    *ngIf="addTicketForm.get('ticketSubject').invalid && addTicketForm.get('ticketSubject').touched">
-                                    <small
-                                        *ngIf="addTicketForm.get('ticketSubject').invalid && addTicketForm.get('ticketSubject').touched"
-                                        class="text-danger"> *Ticket Subject is required</small>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -277,37 +262,23 @@
                             <div class="form-group">
                                 <label>Urgency</label>
                                 <select class="form-select form-control"
-                                    [class.invalid]="addTicketForm.get('assignStaff').invalid && addTicketForm.get('assignStaff').touched"
-                                    formControlName="assignStaff">
+                                    formControlName="ticketUrgency">
                                     <option>P1</option>
                                     <option>P2</option>
                                     <option>P3</option>
 
                                 </select>
-                                <div
-                                    *ngIf="addTicketForm.get('assignStaff').invalid && addTicketForm.get('assignStaff').touched">
-                                    <small
-                                        *ngIf="addTicketForm.get('assignStaff').invalid && addTicketForm.get('assignStaff').touched"
-                                        class="text-danger"> *Assign Staff is required</small>
-                                </div>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>Category</label>
                                 <select class="form-select form-control"
-                                    [class.invalid]="addTicketForm.get('clientName').invalid && addTicketForm.get('clientName').touched"
-                                    formControlName="clientName">
+                                    formControlName="TicketCategory">
                                     <option>-</option>
                                     <option>IT</option>
                                     <option>Consulting</option>
                                 </select>
-                                <div
-                                    *ngIf="addTicketForm.get('clientName').invalid && addTicketForm.get('clientName').touched">
-                                    <small
-                                        *ngIf="addTicketForm.get('clientName').invalid && addTicketForm.get('clientName').touched"
-                                        class="text-danger"> *Client name is required</small>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -316,17 +287,10 @@
                             <div class="form-group">
                                 <label>Departement</label>
                                 <select class="form-select form-control"
-                                    [class.invalid]="addTicketForm.get('PriorityName').invalid && addTicketForm.get('PriorityName').touched"
-                                    formControlName="PriorityName">
+                                    formControlName="TicketDepartement">
                                     <option>Test1</option>
                                     <option>Test2</option>
                                 </select>
-                                <div
-                                    *ngIf="addTicketForm.get('PriorityName').invalid && addTicketForm.get('PriorityName').touched">
-                                    <small
-                                        *ngIf="addTicketForm.get('PriorityName').invalid && addTicketForm.get('PriorityName').touched"
-                                        class="text-danger"> *Priority is required</small>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -334,7 +298,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea class="form-control"></textarea>
+                                <textarea class="form-control" formControlName="TicketContent"></textarea>
                             </div>
                         </div>
                     </div>
@@ -359,186 +323,63 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form (ngSubmit)="editTicket()" [formGroup]="editTicketForm">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Ticket Subject</label>
-                                <input class="form-control" type="text"
-                                    [class.invalid]="editTicketForm.get('editTicketSubject').invalid && editTicketForm.get('editTicketSubject').touched"
-                                    formControlName="editTicketSubject">
-                                <div
-                                    *ngIf="editTicketForm.get('editTicketSubject').invalid && editTicketForm.get('editTicketSubject').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editTicketSubject').invalid && editTicketForm.get('editTicketSubject').touched"
-                                        class="text-danger"> *Ticket Subject is required</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Ticket Id</label>
-                                <input class="form-control" type="text" value="TKT-0001"
-                                    [class.invalid]="editTicketForm.get('editTicketId').invalid && editTicketForm.get('editTicketId').touched"
-                                    formControlName="editTicketId">
-                                <div
-                                    *ngIf="editTicketForm.get('editTicketId').invalid && editTicketForm.get('editTicketId').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editTicketId').invalid && editTicketForm.get('editTicketId').touched"
-                                        class="text-danger"> *Ticket Id is required</small>
-                                </div>
-                            </div>
-                        </div>
+                <form [formGroup]="editTicketForm">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Ticket Subject</label>
+                        <input class="form-control" type="text"
+                               formControlName="EditticketSubject">
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Assign Staff</label>
-                                <select class="form-select form-control"
-                                    [class.invalid]="editTicketForm.get('editAssignStaff').invalid && editTicketForm.get('editAssignStaff').touched"
-                                    formControlName="editAssignStaff">
-                                    <option>-</option>
-                                    <option selected>Mike Litorus</option>
-                                    <option>John Smith</option>
-                                    <option>Catherine Manseau</option>
-                                </select>
-                                <div
-                                    *ngIf="editTicketForm.get('editAssignStaff').invalid && editTicketForm.get('editAssignStaff').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editAssignStaff').invalid && editTicketForm.get('editAssignStaff').touched"
-                                        class="text-danger"> *Assign Staff is required</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Client</label>
-                                <select class="form-select form-control"
-                                    [class.invalid]="editTicketForm.get('editClientName').invalid && editTicketForm.get('editClientName').touched"
-                                    formControlName="editClientName">
-                                    <option>-</option>
-                                    <option>Delta Infotech</option>
-                                    <option>International Software Inc</option>
-                                </select>
-                                <div
-                                    *ngIf="editTicketForm.get('editClientName').invalid && editTicketForm.get('editClientName').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editClientName').invalid && editTicketForm.get('editClientName').touched"
-                                        class="text-danger"> *Client name is required</small>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Urgency</label>
+                        <select class="form-select form-control"
+                                formControlName="EditticketUrgency">
+                          <option>P1</option>
+                          <option>P2</option>
+                          <option>P3</option>
+
+                        </select>
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Priority</label>
-                                <select class="form-select form-control"
-                                    [class.invalid]="editTicketForm.get('editPriorityName').invalid && editTicketForm.get('editPriorityName').touched"
-                                    formControlName="editPriorityName">
-                                    <option>High</option>
-                                    <option selected>Medium</option>
-                                    <option>Low</option>
-                                </select>
-                                <div
-                                    *ngIf="editTicketForm.get('editPriorityName').invalid && editTicketForm.get('editPriorityName').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editPriorityName').invalid && editTicketForm.get('editPriorityName').touched"
-                                        class="text-danger"> *Priority is required</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>CC</label>
-                                <input class="form-control" type="text"
-                                    [class.invalid]="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched"
-                                    formControlName="editccName">
-                                <div
-                                    *ngIf="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched"
-                                        class="text-danger"> *CC is required</small>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-select form-control"
+                                formControlName="EditTicketCategory">
+                          <option>-</option>
+                          <option>IT</option>
+                          <option>Consulting</option>
+                        </select>
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Assign</label>
-                                <input type="text" class="form-control"
-                                    [class.invalid]="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched"
-                                    formControlName="editccName">
-                                <div
-                                    *ngIf="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editccName').invalid && editTicketForm.get('editccName').touched"
-                                        class="text-danger"> *Assign is required</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Ticket Assignee</label>
-                                <div class="project-members">
-                                    <a title="John Smith" data-placement="top" data-bs-toggle="tooltip" class="avatar">
-                                        <img src="assets/img/profiles/avatar-2.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Departement</label>
+                        <select class="form-select form-control"
+                                formControlName="EditTicketDepartement">
+                          <option>Test1</option>
+                          <option>Test2</option>
+                        </select>
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Add Followers</label>
-                                <input type="text" class="form-control"
-                                    [class.invalid]="editTicketForm.get('editaddFlowers').invalid && editTicketForm.get('editaddFlowers').touched"
-                                    formControlName="editaddFlowers">
-                                <div
-                                    *ngIf="editTicketForm.get('editaddFlowers').invalid && editTicketForm.get('editaddFlowers').touched">
-                                    <small
-                                        *ngIf="editTicketForm.get('editaddFlowers').invalid && editTicketForm.get('editaddFlowers').touched"
-                                        class="text-danger"> *Add Followers is required</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>Ticket Followers</label>
-                                <div class="project-members">
-                                    <a title="Richard Miles" data-bs-toggle="tooltip" class="avatar">
-                                        <img src="assets/img/profiles/avatar-9.jpg" alt="">
-                                    </a>
-                                    <a title="John Smith" data-bs-toggle="tooltip" class="avatar">
-                                        <img src="assets/img/profiles/avatar-10.jpg" alt="">
-                                    </a>
-                                    <a title="Mike Litorus" data-bs-toggle="tooltip" class="avatar">
-                                        <img src="assets/img/profiles/avatar-5.jpg" alt="">
-                                    </a>
-                                    <a title="Wilmer Deluna" data-bs-toggle="tooltip" class="avatar">
-                                        <img src="assets/img/profiles/avatar-11.jpg" alt="">
-                                    </a>
-                                    <span class="all-team">+2</span>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Content</label>
+                        <textarea class="form-control" formControlName="EditTicketContent"></textarea>
+                      </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label>Upload Files</label>
-                                <input class="form-control" type="file">
-                            </div>
-                        </div>
-                    </div>
+                  </div>
                     <div class="submit-section">
-                        <button class="btn btn-primary submit-btn" type="submit">Save</button>
+                        <button class="btn btn-primary submit-btn" (click)="editTicket(tempId)" type="submit">Save</button>
                     </div>
                 </form>
             </div>
@@ -560,7 +401,7 @@
                     <div class="row">
                         <div class="col-6">
                             <a  class="btn btn-primary continue-btn"
-                                (click)="deleteTicket()">Delete</a>
+                                (click)="deleteTicket(tempId)">Delete</a>
                         </div>
                         <div class=" col-6">
                             <a  data-bs-dismiss="modal"

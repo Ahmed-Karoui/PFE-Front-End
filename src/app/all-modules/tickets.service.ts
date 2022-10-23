@@ -17,11 +17,11 @@ export class TicketsService {
     return this.http.post(`${this.baseURL}/add-ticket`, data)
   }
 
-  updateProject(data: any, id: string): Observable<any> {
+  updateTicket(data: any, id: string): Observable<any> {
     return this.http.patch(`${this.baseURL}/update-ticket/${id}`, data)
   }
 
-  deleteData(id: string): Observable<any> {
+  deleteTicket(id: any): Observable<any> {
     return this.http.delete(`${this.baseURL}/delete-ticket/${id}`)
   }
 }

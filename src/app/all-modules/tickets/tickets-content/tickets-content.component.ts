@@ -57,26 +57,20 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
     // Add Ticket Form Validation And Getting Values
     this.addTicketForm = this.formBuilder.group({
       ticketSubject: ['', [Validators.required]],
-      ticketId: ['', [Validators.required]],
-      assignStaff: ['', [Validators.required]],
-      clientName: ['', [Validators.required]],
-      PriorityName: ['', [Validators.required]],
-      ccName: ['', [Validators.required]],
-      AssignName: ['', [Validators.required]],
-      addFlowers: ['', [Validators.required]],
+      ticketUrgency: ['', [Validators.required]],
+      TicketCategory: ['', [Validators.required]],
+      TicketDepartement: ['', [Validators.required]],
+      TicketContent: ['', [Validators.required]],
     });
 
     // Edit Ticket Form Validation And Getting Values
 
     this.editTicketForm = this.formBuilder.group({
-      editTicketSubject: ['', [Validators.required]],
-      editTicketId: ['', [Validators.required]],
-      editAssignStaff: ['', [Validators.required]],
-      editClientName: ['', [Validators.required]],
-      editPriorityName: ['', [Validators.required]],
-      editccName: ['', [Validators.required]],
-      editAssignName: ['', [Validators.required]],
-      editaddFlowers: ['', [Validators.required]],
+      EditticketSubject: ['', [Validators.required]],
+      EditticketUrgency: ['', [Validators.required]],
+      EditTicketCategory: ['', [Validators.required]],
+      EditTicketDepartement: ['', [Validators.required]],
+      EditTicketContent: ['', [Validators.required]],
     });
 
     this.dtOptions = {
@@ -126,32 +120,15 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
   // Add Ticket Modal Api Call
 
   addTickets() {
-    if(this.addTicketForm.invalid){
-      this.markFormGroupTouched(this.addTicketForm)
-      return
-    }
-    if (this.addTicketForm.valid) {
-      // let created = this.pipe.transform(
-      //   "12-05-2020",
-      //   "dd-MM-yyyy"
-      // );
-      // let lastDate = this.pipe.transform(
-      //   "13-05-2020",
-      //   "dd-MM-yyyy"
-      // );
       const obj = {
         description: this.addTicketForm.value.ticketSubject,
-        urgency: this.addTicketForm.value.urgency,
-        client: this.addTicketForm.value.clientName,
-        cc: this.addTicketForm.value.ccName,
-        priority: this.addTicketForm.value.PriorityName,
-        assigne: this.addTicketForm.value.AssignName,
-        addfollow: this.addTicketForm.value.addFlowers,
-        createdDate: '05-05-2020',
-        lastReply: '11-05-2020',
-        status: 'Pending',
+        urgency: this.addTicketForm.value.ticketUrgency,
+        category: this.addTicketForm.value.TicketCategory,
+        departement: this.addTicketForm.value.TicketDepartement,
+        content: this.addTicketForm.value.TicketContent,
+        status: 'Active',
       };
-      this.allModuleService.add(obj, this.url).subscribe((data) => {
+      this.ticketService.addTicket(obj).subscribe((data) => {
         $('#datatable').DataTable().clear();
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           dtInstance.destroy();
@@ -162,29 +139,19 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
       $('#add_ticket').modal('hide');
       this.addTicketForm.reset();
       this.toastr.success('Tickets added', 'Success');
-    } else {
-      this.toastr.warning('Mandatory fields required', '');
     }
-  }
 
   // Edit Ticket Modal Api Call
 
-  editTicket() {
-    const obj = {
-      ticketSubject: this.editTicketForm.value.editTicketSubject,
-      ticketId: this.editTicketForm.value.editTicketId,
-      assignedStaff: this.editTicketForm.value.editAssignStaff,
-      client: this.editTicketForm.value.editClientName,
-      cc: this.editTicketForm.value.editccName,
-      priority: this.editTicketForm.value.editPriorityName,
-      assigne: this.editTicketForm.value.editAssignName,
-      addfollow: this.editTicketForm.value.editaddFlowers,
-      createdDate: '05-09-2020',
-      lastReply: '06-09-2020',
-      status: 'Approved',
-      id: this.editId,
+  editTicket(id: any) {
+    const editedTicket = {
+      description: this.editTicketForm.value.EditticketSubject,
+      urgency: this.editTicketForm.value.EditticketUrgency,
+      category: this.editTicketForm.value.EditTicketCategory,
+      departement: this.editTicketForm.value.EditTicketDepartement,
+      content: this.editTicketForm.value.EditTicketContent,
     };
-    this.allModuleService.update(obj, this.url).subscribe((data1) => {
+    this.ticketService.updateTicket(editedTicket, id).subscribe((data1) => {
       $('#datatable').DataTable().clear();
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();
@@ -204,20 +171,17 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
     });
     const toSetValues = this.allTickets[index];
     this.editTicketForm.setValue({
-      editTicketSubject: toSetValues.ticketSubject,
-      editTicketId: toSetValues.ticketId,
-      editAssignStaff: toSetValues.assignedStaff,
-      editClientName: toSetValues.client,
-      editPriorityName: toSetValues.priority,
-      editccName: toSetValues.cc,
-      editAssignName: toSetValues.assigne,
-      editaddFlowers: toSetValues.addfollow,
+      EditticketSubject: toSetValues.description,
+      EditticketUrgency: toSetValues.urgency,
+      EditTicketCategory: toSetValues.category,
+      EditTicketDepartement: toSetValues.departement,
+      EditTicketContent: toSetValues.content,
     });
   }
 
   // Delete Ticket Modal Api Call
-  deleteTicket() {
-    this.allModuleService.delete(this.tempId, this.url).subscribe((data) => {
+  deleteTicket(id: any) {
+    this.ticketService.deleteTicket(id).subscribe((data) => {
       $('#datatable').DataTable().clear();
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();

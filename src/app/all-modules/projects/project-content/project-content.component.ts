@@ -156,7 +156,7 @@ export class ProjectContentComponent implements OnInit, OnDestroy {
   }
 
   // Delete project
-  public deleteProject(id: string) {
+  public deleteProject(id: any) {
       this.projectsService.deleteData(id).subscribe(res => {
         this.projects = this.projects.filter(item => item.id !== id);
       })
