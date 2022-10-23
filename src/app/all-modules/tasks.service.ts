@@ -5,23 +5,23 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsService {
-  private baseURL = `http://localhost:3000/tickets`
+export class TasksService {
+  private baseURL = `http://localhost:3000/tasks`
   constructor(private http: HttpClient) { }
 
-  getAllProjects(): Observable<any> {
-    return this.http.get(`${this.baseURL}/get-tickets`)
+  getAllTasks(): Observable<any> {
+    return this.http.get(`${this.baseURL}/get-tasks`)
   }
 
-  addProject(data: any): Observable<any> {
-    return this.http.post(`${this.baseURL}/add-ticket`, data)
+  addTask(data: any): Observable<any> {
+    return this.http.post(`${this.baseURL}/add-task`, data)
   }
 
-  updateProject(data: any, id: string): Observable<any> {
-    return this.http.patch(`${this.baseURL}/update-ticket/${id}`, data)
+  updateTask(data: any, id: string): Observable<any> {
+    return this.http.patch(`${this.baseURL}/update-task/${id}`, data)
   }
 
-  deleteData(id: string): Observable<any> {
-    return this.http.delete(`${this.baseURL}/delete-ticket/${id}`)
+  deleteTask(id: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/delete-task/${id}`)
   }
 }

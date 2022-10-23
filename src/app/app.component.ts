@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
           event.url == '/login/register' ||
           event.url == '/login/forgot' ||
           event.url == '/login/otp' ||
-          event.url == '/login/lockscreen' 
+          event.url == '/login/lockscreen'
         ) {
           document.querySelector('body').classList.add('account-page');
         } else {
@@ -70,16 +70,16 @@ export class AppComponent implements OnInit {
 
     $('body').append('<div class="sidebar-overlay"></div>');
     $(document).on('click', '#mobile_btn', function() {
-      var $wrapper = $('.main-wrapper');
+      let $wrapper = $('.main-wrapper');
       $wrapper.toggleClass('slide-nav');
       $('.sidebar-overlay').toggleClass('opened');
       $('html').addClass('menu-opened');
       $('#task_window').removeClass('opened');
       return false;
     });
-    
-    $(".sidebar-overlay").on("click", function () {
-      var $wrapper = $('.main-wrapper');
+
+    $('.sidebar-overlay').on('click', function () {
+      let $wrapper = $('.main-wrapper');
         $('html').removeClass('menu-opened');
         $(this).removeClass('opened');
         $wrapper.removeClass('slide-nav');
