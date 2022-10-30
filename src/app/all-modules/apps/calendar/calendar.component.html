@@ -15,7 +15,7 @@
             </div>
             <div class="col-auto float-end ms-auto">
                 <a class="btn add-btn" (click)="openAddEventModal()"><i class="fa fa-plus"></i>
-                    Add Event</a>
+                    Request Leave</a>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Event</h5>
+                <h5 class="modal-title">Request Leave</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -98,32 +98,16 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Event Name <span class="text-danger">*</span></label>
+                        <label>Leave Description <span class="text-danger">*</span></label>
                         <input class="form-control" type="text" [(ngModel)]="eventName"
                             [ngModelOptions]="{ standalone : true }">
                     </div>
                     <div class="form-group">
-                        <label>Event Date <span class="text-danger">*</span></label>
+                        <label>Leave Duration <span class="text-danger">*</span></label>
                         <div class="cal-icon">
                             <input type="text" [(bsValue)]="bsInlineRangeValue" placeholder="select date"
                                 class="form-control" bsDaterangepicker>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Category</label>
-                        <select class="form-select form-control" [(ngModel)]="category"
-                            [ngModelOptions]="{ standalone : true }">
-                            <option>Danger</option>
-                            <option>Success</option>
-                            <option>Purple</option>
-                            <option>Primary</option>
-                            <option>Pink</option>
-                            <option>Info</option>
-                            <option>Orange</option>
-                            <option>Brown</option>
-                            <option>Teal</option>
-                            <option>Warning</option>
-                        </select>
                     </div>
                     <div class="submit-section">
                         <button type="button" class="btn btn-primary submit-btn" (click)="addEvent()">Submit</button>
@@ -140,7 +124,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Event</h5>
+                <h5 class="modal-title">Edit Request Leave</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -148,26 +132,17 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label>Event Name <span class="text-danger">*</span></label>
+                        <label>Leave Description <span class="text-danger">*</span></label>
                         <input class="form-control" type="text" [(ngModel)]="editEventName"
                             [ngModelOptions]="{ standalone : true }">
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Category</label>
-                        <select class="form-select form-control" [(ngModel)]="editCategory"
-                            [ngModelOptions]="{ standalone : true }">
-                            <option>Danger</option>
-                            <option>Success</option>
-                            <option>Purple</option>
-                            <option>Primary</option>
-                            <option>Pink</option>
-                            <option>Info</option>
-                            <option>Orange</option>
-                            <option>Brown</option>
-                            <option>Teal</option>
-                            <option>Warning</option>
-                        </select>
+                  <div class="form-group">
+                    <label>Leave Duration <span class="text-danger">*</span></label>
+                    <div class="cal-icon">
+                      <input type="text" [(bsValue)]="bsInlineRangeValue" placeholder="select date"
+                             class="form-control" bsDaterangepicker>
                     </div>
+                  </div>
                     <div class="submit-section">
                         <button type="button" class="btn btn-primary submit-btn" (click)="editEvent()">Submit</button>
                     </div>

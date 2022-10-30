@@ -5,23 +5,23 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsService {
+export class LeavesService {
   private baseURL = `http://localhost:3000/leaves`
   constructor(private http: HttpClient) { }
 
-  getAllProjects(): Observable<any> {
+  getAllLeaves(): Observable<any> {
     return this.http.get(`${this.baseURL}/get-leaves`)
   }
 
-  addProject(data: any): Observable<any> {
+  addLeave(data: any): Observable<any> {
     return this.http.post(`${this.baseURL}/add-leave`, data)
   }
 
-  updateProject(data: any, id: string): Observable<any> {
+  updateLeave(data: any, id: string): Observable<any> {
     return this.http.patch(`${this.baseURL}/update-leave/${id}`, data)
   }
 
-  deleteData(id: string): Observable<any> {
+  deleteLeave(id: string): Observable<any> {
     return this.http.delete(`${this.baseURL}/delete-leave/${id}`)
   }
 }
