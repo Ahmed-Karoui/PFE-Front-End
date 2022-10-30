@@ -85,7 +85,7 @@ const colors: any = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarComponent implements OnInit {
-
+  public allLeaves: any = [];
   constructor(private modal: NgbModal,private leaveservice: LeavesService) {}
   bsInlineRangeValue: Date[];
   eventName: string;
@@ -94,7 +94,7 @@ export class CalendarComponent implements OnInit {
   editCategory: string;
   editAction;
   editCalendarEvent;
-  public allLeaves: any = [];
+
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -129,47 +129,47 @@ export class CalendarComponent implements OnInit {
   ];
 
   refresh: Subject<any> = new Subject();
+  events: CalendarEvent[] =  this.allLeaves;
 
-  events: CalendarEvent[] = [
-    {
-  start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'test ahmed Karoui',
-      color: colors.green,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    // {
-    //   start: startOfDay(new Date()),
-    //   title: 'An event with no end date',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    // },
-    // {
-    //   start: subDays(endOfMonth(new Date()), 3),
-    //   end: addDays(endOfMonth(new Date()), 3),
-    //   title: 'A long event that spans 2 months',
-    //   color: colors.blue,
-    //   allDay: true,
-    // },
-    // {
-    //   start: addHours(startOfDay(new Date()), 2),
-    //   end: new Date(),
-    //   title: 'A draggable and resizable event',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    //   resizable: {
-    //     beforeStart: true,
-    //     afterEnd: true,
-    //   },
-    //   draggable: true,
-    // },
-  ];
+  //   {
+  // start: subDays(startOfDay(new Date()), 1),
+  //     end: addDays(new Date(), 1),
+  //     title: 'test ahmed Karoui',
+  //     color: colors.green,
+  //     actions: this.actions,
+  //     allDay: true,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
+  //   {
+  //     start: startOfDay(new Date()),
+  //     title: 'An event with no end date',
+  //     color: colors.yellow,
+  //     actions: this.actions,
+  //   },
+  //   {
+  //     start: subDays(endOfMonth(new Date()), 3),
+  //     end: addDays(endOfMonth(new Date()), 3),
+  //     title: 'A long event that spans 2 months',
+  //     color: colors.blue,
+  //     allDay: true,
+  //   },
+  //   // {
+  //   //   start: addHours(startOfDay(new Date()), 2),
+  //   //   end: new Date(),
+  //   //   title: 'A draggable and resizable event',
+  //   //   color: colors.yellow,
+  //   //   actions: this.actions,
+  //   //   resizable: {
+  //   //     beforeStart: true,
+  //   //     afterEnd: true,
+  //   //   },
+  //   //   draggable: true,
+  //   // },
+  // ];
 
   activeDayIsOpen = true;
 
@@ -180,9 +180,29 @@ export class CalendarComponent implements OnInit {
 
   getLeaves() {
     this.leaveservice.getAllLeaves().subscribe((data) => {
-      this.allLeaves = data;
+      data.forEach(element => {
+        var elem = {
+          start: subDays(startOfDay(new Date(element.start).toDateString()), 1),
+          end: addDays(new Date(element.start).toDateString(), 1),
+          title: element.title,
+          color: colors.green,
+        }
+        console.log(elem)
+        this.events.push(elem)
+      })
     });
   }
+
+  //
+  //     // this.allLeaves = data;
+  //
+  //
+  //
+  //     // console.log(this.allLeaves)
+  //     // this.events.push(this.allLeaves)
+  //     // console.log(this.events)
+  //   });
+  // }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
