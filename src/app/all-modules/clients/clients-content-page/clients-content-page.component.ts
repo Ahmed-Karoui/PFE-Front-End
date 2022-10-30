@@ -21,8 +21,8 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   public tempId: any;
   public searchName: any;
   public searchId: any;
-  public searchCompany: any;
-  public companiesList = [];
+  public searchRole: any;
+  public roleList = [];
   public filtereddata = [];
 
   @ViewChild(DataTableDirective, { static: false })
@@ -79,14 +79,22 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
 
     this.userService.getAllUsers().subscribe((data) => {
       this.clientsData = data;
-      // this.rows = this.allUsers;
+        if (this.roleList.length === 0) {
+          this.clientsData.map((client) =>
+            this.roleList.push(client.role)
+          );
+          this.dtTrigger.next();
+          this.rows = this.clientsData;
+          this.srch = [...this.rows];
+        }
+              // this.rows = this.allUsers;
       // this.srch = [...this.rows];
 
       // this.allModulesService.get('clients').subscribe((data) => {
     //   this.clientsData = data;
-    //   if (this.companiesList.length === 0) {
+    //   if (this.roleList.length === 0) {
     //     this.clientsData.map((client) =>
-    //       this.companiesList.push(client.company)
+    //       this.roleList.push(client.company)
     //     );
     //
     //     this.dtTrigger.next();
@@ -165,11 +173,12 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   }
 
   // Delete Client
-  onDelete() {
-    this.allModulesService.delete(this.tempId, 'clients').subscribe();
+  onDelete(id: any) {
+    this.userService.deleteUser(id).subscribe((data) => {
     this.getClients();
     $('#delete_client').modal('hide');
     this.toastr.success('Client is deleted', 'Success');
+    });
   }
 
   // Search Client
@@ -191,7 +200,7 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
         }
       }
 
-      if (this.searchId || this.searchCompany || this.searchName) {
+      if (this.searchId || this.searchRole || this.searchName) {
         this.clientsData =
           this.filtereddata.length != 0 ? this.filtereddata : this.clientsData;
       } else {
@@ -221,11 +230,11 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   }
 
   // search by company
-  searchbyCompany(val) {
+  searchbyRole(val) {
     this.rows.splice(0, this.rows.length);
     const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
-      return d.company.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.role.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows.push(...temp);
   }

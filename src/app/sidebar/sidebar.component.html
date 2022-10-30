@@ -593,40 +593,6 @@
           </li>
           <li
             class="submenu"
-            [ngClass]="{ active: urlComplete.mainUrl === 'goals' }"
-          >
-            <a
-              href="javascript:"
-              [ngClass]="{ subdrop: urlComplete.mainUrl === 'goals' }"
-              ><i class="la la-crosshairs"></i> <span> Goals </span>
-              <span class="menu-arrow"></span
-            ></a>
-            <ul
-              style="display: none"
-              [ngStyle]="{
-                display: urlComplete.mainUrl === 'goals' ? 'block' : 'none'
-              }"
-            >
-              <li routerLink="/layout/goals/goallist">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'goallist' }"
-                >
-                  Goal List
-                </a>
-              </li>
-              <li routerLink="/layout/goals/goaltype">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'goaltype' }"
-                >
-                  Goal Type
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li
-            class="submenu"
             [ngClass]="{ active: urlComplete.mainUrl === 'training' }"
           >
             <a
