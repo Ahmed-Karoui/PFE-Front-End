@@ -182,8 +182,8 @@ export class CalendarComponent implements OnInit {
     this.leaveservice.getAllLeaves().subscribe((data) => {
       data.forEach(element => {
         var elem = {
-          start: subDays(startOfDay(new Date(element.start).toDateString()), 1),
-          end: addDays(new Date(element.start).toDateString(), 1),
+          start: subDays(startOfDay(new Date(element.start_date).toUTCString()), 1),
+          end: addDays(new Date(element.end_date).toUTCString(), 1),
           title: element.title,
           color: colors.green,
         }
@@ -225,10 +225,10 @@ export class CalendarComponent implements OnInit {
   }
 
   eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
+                      event,
+                      newStart,
+                      newEnd,
+                    }: CalendarEventTimesChangedEvent): void {
     this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
