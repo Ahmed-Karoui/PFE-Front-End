@@ -24,6 +24,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import {LeavesService} from '../../leaves.service';
+import {ToastrService} from 'ngx-toastr';
 
 declare const $: any;
 
@@ -86,7 +87,8 @@ const colors: any = {
 })
 export class CalendarComponent implements OnInit {
   public allLeaves: any = [];
-  constructor(private modal: NgbModal,private leaveservice: LeavesService) {}
+  constructor(private modal: NgbModal,private leaveservice: LeavesService,    private toastr: ToastrService,
+  ) {}
   bsInlineRangeValue: Date[];
   eventName: string;
   category: string;
@@ -219,7 +221,6 @@ export class CalendarComponent implements OnInit {
   }
 
   openAddEventModal() {
-    this.eventName = '';
     this.bsInlineRangeValue = [];
     $('#add_event').modal('show');
   }
@@ -248,23 +249,17 @@ export class CalendarComponent implements OnInit {
   }
 
   addEvent(): void {
-    if (this.category === 'Success') {
-      this.events = [
-        ...this.events,
-        {
-          title: this.eventName,
-          start: startOfDay(this.bsInlineRangeValue[0]),
-          end: endOfDay(this.bsInlineRangeValue[1]),
-          color: colors.green,
-          draggable: true,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          }
-        },
-      ];
+    const newLeave = {
+      title: this.eventName,
+      start_date: startOfDay(this.bsInlineRangeValue[0]),
+      end_date: endOfDay(this.bsInlineRangeValue[1]),
+      status:'Waiting For Approval'
     }
+    console.log(this.eventName)
+    this.leaveservice.addLeave(newLeave).subscribe((data) => {
     $('#add_event').modal('hide');
+      this.toastr.success('Client is added', 'Success');
+    });
   }
 
   editEvent() {

@@ -256,7 +256,7 @@
             }"
           >
             <a routerLink="/layout/clients/clientspage"
-              ><i class="la la-users"></i> <span>Clients</span></a
+              ><i class="la la-users"></i> <span>Users Management</span></a
             >
           </li>
           <li
@@ -383,162 +383,6 @@
               [ngClass]="{ active: urlComplete.mainUrl === 'calendar' }"
             ><i class="la la-user-secret"></i> <span>Leaves Management</span></a>
           </li>
-          <li
-            class="submenu"
-            [ngClass]="{
-              active:
-                urlComplete.mainUrl === 'reports' ||
-                urlComplete.mainUrl === 'employeereports' ||
-                urlComplete.mainUrl === 'payslipreports' ||
-                urlComplete.mainUrl === 'projectreports' ||
-                urlComplete.mainUrl === 'paymentreports' ||
-                urlComplete.mainUrl === 'taskreports' ||
-                urlComplete.mainUrl === 'userreports' ||
-                urlComplete.mainUrl === 'attendancereports' ||
-                urlComplete.mainUrl === 'leavereports' ||
-                urlComplete.mainUrl === 'dailyreports'
-            }"
-          >
-            <a
-              href="javascript:"
-              [ngClass]="{
-                subdrop:
-                  urlComplete.mainUrl === 'reports' ||
-                  urlComplete.mainUrl === 'employeereports' ||
-                  urlComplete.mainUrl === 'payslipreports' ||
-                  urlComplete.mainUrl === 'projectreports' ||
-                  urlComplete.mainUrl === 'paymentreports' ||
-                  urlComplete.mainUrl === 'taskreports' ||
-                  urlComplete.mainUrl === 'userreports' ||
-                  urlComplete.mainUrl === 'attendancereports' ||
-                  urlComplete.mainUrl === 'leavereports' ||
-                  urlComplete.mainUrl === 'dailyreports'
-              }"
-              ><i class="la la-pie-chart"></i> <span> Reports </span>
-              <span class="menu-arrow"></span
-            ></a>
-            <ul
-              style="display: none"
-              [ngStyle]="{
-                display:
-                  urlComplete.mainUrl === 'reports' ||
-                  urlComplete.mainUrl === 'employeereports' ||
-                  urlComplete.mainUrl === 'payslipreports' ||
-                  urlComplete.mainUrl === 'projectreports' ||
-                  urlComplete.mainUrl === 'paymentreports' ||
-                  urlComplete.mainUrl === 'taskreports' ||
-                  urlComplete.mainUrl === 'userreports' ||
-                  urlComplete.mainUrl === 'attendancereports' ||
-                  urlComplete.mainUrl === 'leavereports' ||
-                  urlComplete.mainUrl === 'dailyreports'
-                    ? 'block'
-                    : 'none'
-              }"
-            >
-              <li routerLink="/layout/reports/expense-report">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'expense-report'
-                  }"
-                >
-                  Expense Report
-                </a>
-              </li>
-              <li routerLink="/layout/reports/invoice-report">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'invoice-report'
-                  }"
-                >
-                  Invoice Report
-                </a>
-              </li>
-              <li routerLink="/layout/paymentreports/payments-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'payments-reports'
-                  }"
-                >
-                  Payments Report
-                </a>
-              </li>
-              <li routerLink="/layout/projectreports/project-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'project-reports'
-                  }"
-                >
-                  Project Report
-                </a>
-              </li>
-              <li routerLink="/layout/taskreports/task-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'task-reports' }"
-                >
-                  Task Report
-                </a>
-              </li>
-              <li routerLink="/layout/userreports/user-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'user-reports' }"
-                >
-                  User Report
-                </a>
-              </li>
-              <li routerLink="/layout/employeereports/employee-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'employee-reports'
-                  }"
-                >
-                  Employee Report
-                </a>
-              </li>
-              <li routerLink="/layout/payslipreports/payslip-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'payslip-reports'
-                  }"
-                >
-                  Payslip Report
-                </a>
-              </li>
-              <li routerLink="/layout/attendancereports/attendance-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{
-                    active: urlComplete.subUrl === 'attendance-reports'
-                  }"
-                >
-                  Attendance Report
-                </a>
-              </li>
-              <li routerLink="/layout/leavereports/leave-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'leave-reports' }"
-                >
-                  Leave Report
-                </a>
-              </li>
-              <li routerLink="/layout/dailyreports/daily-reports">
-                <a
-                  href="javascript:"
-                  [ngClass]="{ active: urlComplete.subUrl === 'daily-reports' }"
-                >
-                  Daily Report
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="menu-title">
             <span>Performance</span>
           </li>
@@ -549,7 +393,7 @@
             <a
               href="javascript:"
               [ngClass]="{ subdrop: urlComplete.mainUrl === 'performance' }"
-              ><i class="la la-graduation-cap"></i> <span> Performance </span>
+              ><i class="la la-graduation-cap"></i> <span> Appraisal Meetings </span>
               <span class="menu-arrow"></span
             ></a>
             <ul
