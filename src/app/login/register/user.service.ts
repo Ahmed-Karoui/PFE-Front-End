@@ -9,7 +9,7 @@ export class UserService {
   register(body:any){
     return this._http.post('http://localhost:3000/users/signup',body,{
       observe:'body',
-      withCredentials:true  ,     
+      withCredentials:true  ,
       headers:new HttpHeaders().append('Content-Type','application/json')
      });
   }
@@ -20,7 +20,7 @@ observe:'body',
 withCredentials:true,
 headers:new HttpHeaders().append('Content-Type','application/json')
 });
-}
+  }
 
 //   user(){
 //     return this._http.get('http://127.0.0.1:3000/users/user',{

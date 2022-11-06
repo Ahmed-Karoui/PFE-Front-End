@@ -1,14 +1,15 @@
-import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { AllModulesService } from "../../all-modules.service";
-import { ToastrService } from "ngx-toastr";
-import { DataTableDirective } from "angular-datatables";
-import { Subject } from "rxjs";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AllModulesService } from '../../all-modules.service';
+import { ToastrService } from 'ngx-toastr';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+import {HolydaysService} from '../../holidays.service';
 declare const $: any;
 @Component({
-  selector: "app-designation",
-  templateUrl: "./designation.component.html",
-  styleUrls: ["./designation.component.css"],
+  selector: 'app-designation',
+  templateUrl: './designation.component.html',
+  styleUrls: ['./designation.component.css'],
 })
 export class DesignationComponent implements OnInit, OnDestroy {
   @ViewChild(DataTableDirective, { static: false })
@@ -16,7 +17,7 @@ export class DesignationComponent implements OnInit, OnDestroy {
   public dtOptions: DataTables.Settings = {};
   public dtTrigger: Subject<any> = new Subject();
   lstDesignation: any[];
-  url: any = "designation";
+  url: any = 'designation';
   public tempId: any;
   public editId: any;
 
@@ -27,31 +28,32 @@ export class DesignationComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private srvModuleService: AllModulesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private holidayService:HolydaysService
   ) {}
 
   ngOnInit() {
     this.dtOptions = {
       // ... skipped ...
       pageLength: 10,
-      dom: "lrtip",
+      dom: 'lrtip',
     };
     this.LoadDesignation();
 
     this.addDesignationForm = this.formBuilder.group({
-      Designation: ["", [Validators.required]],
-      DepartmentName: ["", [Validators.required]],
+      Designation: ['', [Validators.required]],
+      DepartmentName: ['', [Validators.required]],
     });
 
     this.editDesignationForm = this.formBuilder.group({
-      Designation: ["", [Validators.required]],
-      DepartmentName: ["", [Validators.required]],
+      Designation: ['', [Validators.required]],
+      DepartmentName: ['', [Validators.required]],
     });
   }
 
   // Get designation list  Api Call
   LoadDesignation() {
-    this.srvModuleService.get(this.url).subscribe((data) => {
+    this.holidayService.getnextHoldays().subscribe((data) => {
       this.lstDesignation = data;
       this.dtTrigger.next();
       this.rows = this.lstDesignation;
@@ -60,7 +62,7 @@ export class DesignationComponent implements OnInit, OnDestroy {
   }
 
   private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach((control) => {
+    (Object as any).values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
       if (control.controls) {
         this.markFormGroupTouched(control);
@@ -75,7 +77,7 @@ export class DesignationComponent implements OnInit, OnDestroy {
       return
     }
     if (this.addDesignationForm.valid) {
-      let obj = {
+      const obj = {
         designation: this.addDesignationForm.value.Designation,
         departmentName: this.addDesignationForm.value.DepartmentName,
         id: 1,
@@ -86,15 +88,15 @@ export class DesignationComponent implements OnInit, OnDestroy {
         });
       });
       this.LoadDesignation();
-      $("#add_designation").modal("hide");
+      $('#add_designation').modal('hide');
       this.addDesignationForm.reset();
-      this.toastr.success("Desigantion added sucessfully...!", "Success");
+      this.toastr.success('Desigantion added sucessfully...!', 'Success');
     }
   }
 
   editDesignation() {
     if (this.editDesignationForm.valid) {
-      let obj = {
+      const obj = {
         designation: this.editDesignationForm.value.Designation,
         departmentName: this.editDesignationForm.value.DepartmentName,
         id: this.editId,
@@ -105,8 +107,8 @@ export class DesignationComponent implements OnInit, OnDestroy {
         });
       });
       this.LoadDesignation();
-      $("#edit_designation").modal("hide");
-      this.toastr.success("Department Updated sucessfully...!", "Success");
+      $('#edit_designation').modal('hide');
+      this.toastr.success('Department Updated sucessfully...!', 'Success');
     }
   }
 
@@ -116,7 +118,7 @@ export class DesignationComponent implements OnInit, OnDestroy {
     const index = this.lstDesignation.findIndex((item) => {
       return item.id === value;
     });
-    let toSetValues = this.lstDesignation[index];
+    const toSetValues = this.lstDesignation[index];
     this.editDesignationForm.setValue({
       Designation: toSetValues.designation,
       DepartmentName: toSetValues.departmentName,
@@ -130,8 +132,8 @@ export class DesignationComponent implements OnInit, OnDestroy {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
         dtInstance.destroy();
         this.LoadDesignation();
-        $("#delete_designation").modal("hide");
-        this.toastr.success("Designation deleted sucessfully..!", "Success");
+        $('#delete_designation').modal('hide');
+        this.toastr.success('Designation deleted sucessfully..!', 'Success');
       });
     });
   }

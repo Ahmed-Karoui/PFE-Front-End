@@ -65,7 +65,7 @@
                 (urlComplete.mainUrl === 'employees' &&
                   urlComplete.subUrl === 'departments') ||
                 (urlComplete.mainUrl === 'employees' &&
-                  urlComplete.subUrl === 'designation') ||
+                  urlComplete.mainUrl === 'designation') ||
                 (urlComplete.mainUrl === 'employees' &&
                   urlComplete.subUrl === 'timesheet') ||
                 (urlComplete.mainUrl === 'employees' &&
@@ -97,7 +97,7 @@
                   (urlComplete.mainUrl === 'employees' &&
                     urlComplete.subUrl === 'departments') ||
                   (urlComplete.mainUrl === 'employees' &&
-                    urlComplete.subUrl === 'designation') ||
+                    urlComplete.mainUrl === 'designation') ||
                   (urlComplete.mainUrl === 'employees' &&
                     urlComplete.subUrl === 'timesheet') ||
                   (urlComplete.mainUrl === 'employees' &&
@@ -150,8 +150,7 @@
                   href="javascript:"
                   [ngClass]="{
                     active:
-                      urlComplete.subUrl === 'employeepage' ||
-                      urlComplete.subUrl === 'employeelist'
+                      urlComplete.subUrl === 'training'
                   }"
                   >Trainings</a
                 >
@@ -330,6 +329,20 @@
               ><i class="la la-ticket"></i> <span>Tickets</span></a
             >
           </li>
+
+
+          <li
+            [ngClass]="{
+              active:
+                urlComplete.subUrl === 'ticketscontent' ||
+                urlComplete.subUrl === 'ticketsview'
+            }"
+          >
+            <a routerLink="/layout/employees/employeepage"
+            ><i class="la la-ticket"></i> <span>Trainings</span></a
+            >
+          </li>
+
           <li class="menu-title">
             <span>HR</span>
           </li>
@@ -383,6 +396,14 @@
               [ngClass]="{ active: urlComplete.mainUrl === 'calendar' }"
             ><i class="la la-user-secret"></i> <span>Leaves Management</span></a>
           </li>
+
+          <li routerLink="/layout/employees/designation">
+            <a
+              href="javascript:"
+              [ngClass]="{ active: urlComplete.mainUrl === 'designation' }"
+            ><i class="la la-user-secret"></i> <span>Public Holidays</span></a>
+          </li>
+
           <li class="menu-title">
             <span>Performance</span>
           </li>

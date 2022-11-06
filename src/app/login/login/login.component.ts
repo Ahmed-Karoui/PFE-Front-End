@@ -1,49 +1,37 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from '../register/user.service';
 import {WebStorage} from '../../core/storage/web.storage';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  public CustomControler;
+  public loginform: FormGroup;
   public subscription: Subscription;
-  public Toggledata=true;
-  form = new FormGroup({
-    email: new FormControl('admin@dreamguys.in', [Validators.required]),
-    password: new FormControl('123456', [Validators.required]),
-  });
+  public Toggledata = true;
 
-  get f() {
-    return this.form.controls;
-  }
-
-  constructor(private storage: WebStorage) {
-    this.subscription = this.storage.Loginvalue.subscribe((data) => {
-      if(data != 0){
-        this.CustomControler = data;
-      }
-    });
+  constructor(private storage: WebStorage, private userservice: UserService, private formBuilder: FormBuilder,) {
   }
 
   ngOnInit() {
-    this.storage.Checkuser();
+    // Add clients form
+    this.loginform = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required]],
+    });
+
   }
 
-  submit() {
-    this.storage.Login(this.form.value);
-  }
+  // submit() {
+  //   this.storage.Login(this.form.value);
+  // }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  iconLogle(){
+  iconLogle() {
     this.Toggledata = !this.Toggledata
   }
 
@@ -64,13 +52,14 @@ export class LoginComponent implements OnInit {
   //   this.Toggledata = !this.Toggledata
   // }
   //
-  // // login(){
-  // //   // console.log(JSON.stringify(this.loginForm.value));
-  // //   this._userService.login(JSON.stringify(this.form.value))
-  // //   .subscribe(
-  // //     data=>{console.log(data);this._router.navigate(['/login/forgot']);} ,
-  // //     error=>console.error(error)
-  // //   )
-  // }
-
+  login() {
+    // console.log(JSON.stringify(this.loginForm.value));
+    this.userservice.login(JSON.stringify(this.loginform.value))
+      .subscribe((data) => {
+        {
+          console.log(data);
+          console.log("tekhdem");
+        }
+      });
+  }
 }
