@@ -27,28 +27,19 @@
 
     <!-- Search Filter -->
     <div class="row filter-row">
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
             <div class="form-group form-focus">
-                <input type="text" class="form-control floating" (input)="searchID($event.target.value)">
-                <label class="focus-label">Client ID</label>
+                <input type="text" class="form-control floating" (input)="searchByEmail($event.target.value)">
+                <label class="focus-label">Employee Email</label>
             </div>
         </div>
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
             <div class="form-group form-focus">
                 <input type="text" class="form-control floating" (input)="searchByName($event.target.value)">
-                <label class="focus-label">Client Name</label>
+                <label class="focus-label">Employee Name</label>
             </div>
         </div>
-        <div class="col-sm-6 col-md-3">
-            <div class="form-group form-focus select-focus">
-                <select class="form-control form-select floating" (input)="searchbyRole($event.target.value)">
-                    <option>Select Role</option>
-                    <option *ngFor="let client of clientsData" value="{{client.role}}">{{client.role}}</option>
-                </select>
-                <label class="focus-label">Role</label>
-            </div>
-        </div>
-        <div class="col-sm-6 col-md-3">
+        <div class="col-sm-6 col-md-4">
             <button class="btn btn-success w-100" (click)="onSearch()"> Search </button>
         </div>
     </div>

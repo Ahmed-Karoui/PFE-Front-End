@@ -184,11 +184,11 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   // Search Client
   onSearch() {
     this.filtereddata = [];
-    this.allModulesService.get('clients').subscribe((data) => {
+    this.userService.getAllUsers().subscribe((data) => {
       this.clientsData = data;
       if (this.searchId) {
         this.filtereddata = this.clientsData.filter((data) =>
-          data.clientId.toLowerCase().includes(this.searchId.toLowerCase())
+          data.email.toLowerCase().includes(this.searchId.toLowerCase())
         );
         if (this.searchName) {
           const nameFilter = this.filtereddata.filter((data) =>
@@ -210,11 +210,11 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   }
 
   // search by name
-  searchID(val) {
+  searchByEmail(val) {
     this.rows.splice(0, this.rows.length);
     const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
-      return d.clientId.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.email.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows.push(...temp);
   }
@@ -230,11 +230,11 @@ export class ClientsContentPageComponent implements OnInit, OnDestroy {
   }
 
   // search by company
-  searchbyRole(val) {
+  searchbySexe(val) {
     this.rows.splice(0, this.rows.length);
     const temp = this.srch.filter(function (d) {
       val = val.toLowerCase();
-      return d.role.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.gender.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows.push(...temp);
   }

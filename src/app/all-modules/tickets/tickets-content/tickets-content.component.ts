@@ -31,6 +31,10 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
 
   public rows = [];
   public srch = [];
+  public nbticket: any;
+  public nbticketsolved: any;
+  public nbticketopen: any;
+  public nbticketinprogress: any;
   public statusValue;
   public dtTrigger: Subject<any> = new Subject();
   public pipe = new DatePipe('en-US');
@@ -105,6 +109,12 @@ export class TicketsContentComponent implements OnInit, OnDestroy {
       this.allTickets = data;
       this.rows = this.allTickets;
       this.srch = [...this.rows];
+      this.nbticket = this.allTickets.length;
+      this.nbticketsolved = this.allTickets.filter(o => o.status === 'solved').length;
+      this.nbticketopen = this.allTickets.filter(o => o.status === 'active').length;
+      this.nbticketinprogress = this.allTickets.filter(o => o.status === 'progress').length;
+
+
     });
   }
 
